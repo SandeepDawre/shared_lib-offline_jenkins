@@ -1,4 +1,9 @@
-pipeline {
+def call(body) {
+    def config = [:]
+    body.resolveStrategy = Closure.DELEGATE_FIRST
+    body.delegate = config
+    body()
+    pipeline {
     agent any
     environment {
         //COMMON 
@@ -100,4 +105,6 @@ def dockerPullTagPush (string SRC_DH_URL , string SRC_DH_CREDS , string SRC_DH_T
     sh 'echo Deleting Local docker Images'
     sh "docker image rm ${SRC_DH_TAG}"  
     sh "docker image rm ${DEST_DH_TAG}" 
+}
+
 }
