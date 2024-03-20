@@ -45,7 +45,7 @@ def call(body) {
             steps {
                 echo "Building Docker Image Logging in to Docker Hub & Pushing the Image" 
                 
-                dockerBuildPush(${env.DEV_DH_URL} , ${env.DEV_DH_CREDS} , ${env.DEV_DH_TAG})
+                dockerBuildPush(env.DEV_DH_URL , env.DEV_DH_CREDS , env.DEV_DH_TAG)
 
                 sh 'echo Image Pushed to DEV'
                 sh 'echo Deleting Local docker DEV Image'
@@ -58,7 +58,7 @@ def call(body) {
                 }
             }
             steps {
-                dockerPullTagPush(${env.DEV_DH_URL} , ${env.DEV_DH_CREDS} , ${env.DEV_DH_TAG} , ${env.QA_DH_URL} , ${env.QA_DH_CREDS} , ${env.QA_DH_TAG})
+                dockerPullTagPush(env.DEV_DH_URL , env.DEV_DH_CREDS , env.DEV_DH_TAG , env.QA_DH_URL , env.QA_DH_CREDS , env.QA_DH_TAG)
             }
         }
         stage('Pull Tag push to STAGE') {
@@ -68,7 +68,7 @@ def call(body) {
                 }
             }
             steps {
-                dockerPullTagPush(${env.QA_DH_URL} , ${env.QA_DH_CREDS} , ${env.QA_DH_TAG} , ${env.SATGE_DH_URL} , ${env.STAGE_DH_CREDS} , ${env.STAGE_DH_TAG})
+                dockerPullTagPush(env.QA_DH_URL, env.QA_DH_CREDS , env.QA_DH_TAG , env.SATGE_DH_URL , env.STAGE_DH_CREDS , env.STAGE_DH_TAG)
             }
         }
         stage('Pull Tag push to PROD') {
@@ -78,7 +78,7 @@ def call(body) {
                 }
             }
             steps {
-                dockerPullTagPush(${env.STAGE_DH_URL} , ${env.STAGE_DH_CREDS} , ${env.STAGE_DH_TAG} , ${env.PROD_DH_URL} , ${env.PROD_DH_CREDS} , ${env.PROD_DH_TAG}) 
+                dockerPullTagPush(env.STAGE_DH_URL , env.STAGE_DH_CREDS , env.STAGE_DH_TAG , env.PROD_DH_URL , env.PROD_DH_CREDS , env.PROD_DH_TAG) 
             }
         }
         stage('DEPLOY TO DEV K8S') {
@@ -154,10 +154,11 @@ def call(body) {
     }
 }
 
+}
 //FOR DOCKER BUILD AND PUSH FOR DEV
 def dockerBuildPush (string SRC_DH_URL , string SRC_DH_CREDS , string SRC_DH_TAG ) {
     def app = docker.build('${SRC_DH_TAG}')
-    docker.withRegistry('${SRC_DH_URL}', '${env.SRC_DH_CREDS}') {
+    docker.withRegistry('${SRC_DH_URL}', '${SRC_DH_CREDS}') {
     app.push()
     }
 }
@@ -188,4 +189,3 @@ def dockerPullTagPush (string SRC_DH_URL , string SRC_DH_CREDS , string SRC_DH_T
     sh "docker image rm ${DEST_DH_TAG}" 
 }
 
-}
