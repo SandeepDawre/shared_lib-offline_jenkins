@@ -156,7 +156,7 @@ def call(body) {
 
 //FOR DOCKER BUILD AND PUSH FOR DEV
 def dockerBuildPush (string SRC_DH_URL , string SRC_DH_CREDS , string SRC_DH_TAG ) {
-    def app = docker.build('${env.SRC_DH_TAG}')
+    def app = docker.build('${SRC_DH_TAG}')
     docker.withRegistry('${SRC_DH_URL}', '${env.SRC_DH_CREDS}') {
     app.push()
     }
