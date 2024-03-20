@@ -156,7 +156,7 @@ def call(body) {
 
 }
 //FOR DOCKER BUILD AND PUSH FOR DEV
-def dockerBuildPush (string SRC_DH_URL , string SRC_DH_CREDS , string SRC_DH_TAG ) {
+def dockerBuildPush ( String SRC_DH_URL , String SRC_DH_CREDS , String SRC_DH_TAG ) {
     def app = docker.build('${SRC_DH_TAG}')
     docker.withRegistry('${SRC_DH_URL}', '${SRC_DH_CREDS}') {
     app.push()
@@ -166,7 +166,7 @@ def dockerBuildPush (string SRC_DH_URL , string SRC_DH_CREDS , string SRC_DH_TAG
 
 
 //FOR DOCKER PULL TAG PUSH FOR QA STAGE & PROD
-def dockerPullTagPush (string SRC_DH_URL , string SRC_DH_CREDS , string SRC_DH_TAG , string DEST_DH_URL , string DEST_DH_CREDS , string DEST_DH_TAG ) {
+def dockerPullTagPush ( String SRC_DH_URL , String SRC_DH_CREDS , String SRC_DH_TAG , String DEST_DH_URL , String DEST_DH_CREDS , String DEST_DH_TAG ) {
 
     //FOR PULL
 	docker.withRegistry('${SRC_DH_URL}', '${SRC_DH_CREDS}') {
