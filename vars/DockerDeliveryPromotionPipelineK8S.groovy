@@ -10,7 +10,7 @@ def call(body) {
         TAG      = "${GIT_COMMIT}"
 
         //FOR DEV
-        DEV_DH_URL  = "https://registry.hub.docker.com/teamcloudethix/dev-cdex-jenkins"
+        DEV_DH_URL  = "registry.hub.docker.com/teamcloudethix/dev-cdex-jenkins"
         DEV_DH_CREDS = "dev-dockerhub_creds"
         DEV_DH_TAG =  "${env.TAG}"
 
