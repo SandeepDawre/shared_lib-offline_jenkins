@@ -92,7 +92,6 @@ def call(body) {
                     withKubeCredentials(kubectlCredentials: [[ credentialsId: 'dev_kube_config' ]]) {
                         
                         sh 'kubectl get pod --all-namespaces'
-                        sh 'kubectl apply -f KUBE/'
 
                     }
                 }
@@ -109,7 +108,6 @@ def call(body) {
                     withKubeCredentials(kubectlCredentials: [[ credentialsId: 'qa_kube_config' ]]) {
                         
                         sh 'kubectl get pod --all-namespaces'
-                        sh 'kubectl apply -f KUBE/'
 
                     }
                 }
@@ -126,7 +124,6 @@ def call(body) {
                     withKubeCredentials(kubectlCredentials: [[ credentialsId: 'stage_kube_config' ]]) {
                         
                         sh 'kubectl get pod --all-namespaces'
-                        sh 'kubectl apply -f KUBE/'
 
                     }
                 }
@@ -142,7 +139,6 @@ def call(body) {
                 script {
                     withKubeCredentials(kubectlCredentials: [[ credentialsId: 'prod_kube_config' ]]) {
                         sh 'kubectl get pod --all-namespaces'
-                        sh 'kubectl apply -f KUBE/'
 
                     }
                 }
