@@ -157,8 +157,8 @@ def call(body) {
 }
 //FOR DOCKER BUILD AND PUSH FOR DEV
 def dockerBuildPush( String SRC_DH_URL , String SRC_DH_CREDS , String SRC_DH_TAG ) {
-    def app = docker.build('${SRC_DH_TAG}')
-    docker.withRegistry('${SRC_DH_URL}', '${SRC_DH_CREDS}') {
+    def app = docker.build(SRC_DH_TAG)
+    docker.withRegistry(SRC_DH_URL , SRC_DH_CREDS) {
     app.push()
     }
 }
@@ -169,8 +169,8 @@ def dockerBuildPush( String SRC_DH_URL , String SRC_DH_CREDS , String SRC_DH_TAG
 def dockerPullTagPush( String SRC_DH_URL , String SRC_DH_CREDS , String SRC_DH_TAG , String DEST_DH_URL , String DEST_DH_CREDS , String DEST_DH_TAG ) {
 
     //FOR PULL
-	docker.withRegistry('${SRC_DH_URL}', '${SRC_DH_CREDS}') {
-    docker.image('${SRC_DH_TAG}').pull()
+	docker.withRegistry(SRC_DH_URL , SRC_DH_CREDS) {
+    docker.image(SRC_DH_TAG).pull()
     }
     sh 'echo Image pulled successfully...'
 
@@ -179,8 +179,8 @@ def dockerPullTagPush( String SRC_DH_URL , String SRC_DH_CREDS , String SRC_DH_T
     sh "docker tag ${SRC_DH_TAG}  ${DEST_DH_TAG}" 
 
     //FOR PUSH
-    docker.withRegistry('${DEST_DH_URL}', '${DEST_DH_CREDS}') {
-    docker.image('${DEST_DH_TAG}').push()
+    docker.withRegistry(DEST_DH_URL , DEST_DH_CREDS) {
+    docker.image(DEST_DH_TAG).push()
     }
    
     sh 'echo Image Pushed successfully...'
