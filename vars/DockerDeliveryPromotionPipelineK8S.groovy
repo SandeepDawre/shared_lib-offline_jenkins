@@ -12,23 +12,23 @@ def call(body) {
         //FOR DEV
         DEV_DH_URL  = "registry.hub.docker.com/teamcloudethix/dev-cdex-jenkins"
         DEV_DH_CREDS = "dev-dockerhub_creds"
-        DEV_DH_TAG =  "${env.TAG}"
+        DEV_DH_TAG =  "${env.DEV_DH_URL}" + ":" + "${env.TAG}"
         
 
         //FOR QA
-        QA_DH_URL = "https://registry.hub.docker.com/teamcloudethix/qa-cdex-jenkins"
+        QA_DH_URL = "registry.hub.docker.com/teamcloudethix/qa-cdex-jenkins"
         QA_DH_CREDS = "qa-dockerhub_creds"
-        QA_DH_TAG = "${env.TAG}"
+        QA_DH_TAG = "${env.QA_DH_URL}" + ":" + "${env.TAG}"
 
         //FOR STAGE
-        STAGE_DH_URL =  "https://registry.hub.docker.com/teamcloudethix/stage-cdex-jenkins"
+        STAGE_DH_URL =  "registry.hub.docker.com/teamcloudethix/stage-cdex-jenkins"
         STAGE_DH_CREDS = "stage-dockerhub_creds"
-        STAGE_DH_TAG =  "${env.TAG}"
+        STAGE_DH_TAG =  "${env.STAGE_DH_URL}" + ":" + "${env.TAG}"
 
         //FOR PROD
-        PROD_DH_URL =  "https://registry.hub.docker.com/teamcloudethix/prod-cdex-jenkins"
+        PROD_DH_URL =  "registry.hub.docker.com/teamcloudethix/prod-cdex-jenkins"
         PROD_DH_CREDS = "prod-dockerhub_creds"
-        PROD_DH_TAG = "${env.TAG}"
+        PROD_DH_TAG = "${env.PROD_DH_URL}" + ":" + "${env.TAG}"
     }
     
     parameters {
@@ -158,7 +158,7 @@ def call(body) {
 }
 //FOR DOCKER BUILD AND PUSH FOR DEV
 def dockerBuildPush( String SRC_DH_URL , String SRC_DH_CREDS , String SRC_DH_TAG ) {
-    def app = docker.build(SRC_DH_URL + ":" + SRC_DH_TAG)
+    def app = docker.build(SRC_DH_TAG)
     docker.withRegistry("https://" + SRC_DH_URL , SRC_DH_CREDS) {
     app.push()
     }
@@ -170,17 +170,17 @@ def dockerBuildPush( String SRC_DH_URL , String SRC_DH_CREDS , String SRC_DH_TAG
 def dockerPullTagPush( String SRC_DH_URL , String SRC_DH_CREDS , String SRC_DH_TAG , String DEST_DH_URL , String DEST_DH_CREDS , String DEST_DH_TAG ) {
 
     //FOR PULL
-	docker.withRegistry(SRC_DH_URL , SRC_DH_CREDS) {
+	docker.withRegistry("https://" + SRC_DH_URL , SRC_DH_CREDS) {
     docker.image(SRC_DH_TAG).pull()
     }
     sh 'echo Image pulled successfully...'
 
     //FOR TAG
     sh 'echo Taggig Docker image...'
-    sh "docker tag ${SRC_DH_TAG}  ${DEST_DH_TAG}" 
+    sh "docker tag ${SRC_DH_TAG} ${DEST_DH_TAG}" 
 
     //FOR PUSH
-    docker.withRegistry(DEST_DH_URL , DEST_DH_CREDS) {
+    docker.withRegistry("https://" + DEST_DH_URL , DEST_DH_CREDS) {
     docker.image(DEST_DH_TAG).push()
     }
    
