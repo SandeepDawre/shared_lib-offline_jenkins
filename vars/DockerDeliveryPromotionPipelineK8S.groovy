@@ -69,7 +69,7 @@ def call(body) {
                 }
             }
             steps {
-                dockerPullTagPush(env.QA_DH_URL, env.QA_DH_CREDS , env.QA_DH_TAG , env.SATGE_DH_URL , env.STAGE_DH_CREDS , env.STAGE_DH_TAG)
+                dockerPullTagPush(env.QA_DH_URL , env.QA_DH_CREDS , env.QA_DH_TAG , env.STAGE_DH_URL , env.STAGE_DH_CREDS , env.STAGE_DH_TAG)
             }
         }
         stage('Pull Tag push to PROD') {
